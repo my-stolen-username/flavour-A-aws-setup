@@ -66,6 +66,25 @@ The public ip AWS assings isn't persistent and will change everytime you shutdow
    ![step5](./img/elastic-ip/step5.png)
 
 
+## Setting up Route 53 for Rancher Instance 
+**The following steps are done using the old console. Switch to the old console before proceeding.**
+1. Open the Route 53 Console https://console.aws.amazon.com/route53
+2. Select **Hosted Zone**
+   ![step2](./img/host/step2.png)
+3. Click on **Create Hosted Zone** and enter your domain name you want to use for the AWS instances
+4. Copy the NS value and follow the process of your registrar for the domain to change the name servers of your domain to user the four Route 54 name server that you got after step 3.
+   ![step4](./img/host/step4.png)
+5.  Then we need to create an A record for the Rancher instance. Click on **Create Record Set**
+   ![step5](./img/host/step5.png)
+6.  Add a subdomain or leave it blank. Select **Type: A - IPv4 address** if not previously selected and type in the Elastic IP retrieved from https://github.com/my-stolen-username/flavour-A-aws-setup#associate-elastic-ip-to-rancher-instance  in **value**.
+   ![step6](./img/host/step6.png)
+7. Click on **Create**
+8. Select the newly created a record and Click on **Test Record Set** to check if the record is working or not.
+   ![step8](./img/host/step8.png)
+9. Click on **Get Response**. You'll see **DNS response code:  NOERROR** if it's working. 
+   ![step9](./img/host/step9.png)
+
+
 
 ## IAM user for Rancher
 1. Open the IAM user console http://console.aws.amazon.com/iam
@@ -117,14 +136,14 @@ After you have everything required follow the steps below:
     sudo a2enmod rewrite 
     sudo systemctl restart apache2
    ```
-5. Edit the vhost conf file
+5. Edit the vhost conf file. Replace the  your-rancher-domain with domain configure in https://github.com/my-stolen-username/flavour-A-aws-setup#setting-up-route-53-for-rancher-instance 
    ```
    sudo vi /etc/apache2/sites-available/000-default.conf
    ```
    Change it to 
    ```
    <VirtualHost *:80>
-    ServerName your-rancher-domain
+    ServerName <your-rancher-domain>
     ProxyRequests Off
     ProxyPreserveHost On
     RewriteEngine On
@@ -156,7 +175,7 @@ After you have everything required follow the steps below:
    sudo certbot --apache
    ```
 8. Select the domain that you added in your vhost
-9. Go to your rancher domain and follow from step 2. from the link https://github.com/k8-proxy/s-k8-proxy-rebuild/blob/master/stable-src/README.md#installation-steps-to-deploy-k8s-cluster-on-ec2-instances-using-rancher
+9. Open your rancher domain and follow from step 2. from the link https://github.com/k8-proxy/s-k8-proxy-rebuild/blob/master/stable-src/README.md#installation-steps-to-deploy-k8s-cluster-on-ec2-instances-using-rancher
 10. A new instance will be created in EC2 instance console.
 
 ## Creating an IAM user for Docker Repository 
