@@ -1,6 +1,17 @@
 # flavour-A-aws-setup
 
 
+## Requirements
+### Client Machine tools
+  - **kubectl** https://kubernetes.io/docs/tasks/tools/install-kubectl/
+  - **aws cli**  https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
+  - **docker**  https://docs.docker.com/engine/
+  - **helm** https://helm.sh/docs/intro/install/
+
+### AWS requirements
+   - An IAM user with **SystemAdministrator** policy attached. If yuo don't have permission to change Policies or create ECR repository contact the administrator.
+
+
 ## Setting up AWS Resource Group
 
 1. Open the Resource Group console at https://console.aws.amazon.com/resource-groups
@@ -25,7 +36,7 @@
  ![step3](./img/ec2-for-rancher/step3.png)
 4. In **Step 1: Choose an Amazon Machine Image (AMI)**, Select **Ubuntu Server 20.04 LTS (HVM), SSD Volume Type**.
  ![step31](./img/ec2-for-rancher/step31.png)
-5. In **Step 2: Choose an Instance Type**, For Flavour A, We went with t3a.medium(Mostly because we don’t know at this point in time how much resource the applications are going to consume)  choose **Next: Configure Instance Details**.
+5. In **Step 2: Choose an Instance Type**, For Flavour A, We went with t3a.medium because of the minimum requirement for Rancher  choose **Next: Configure Instance Details**.
  ![step32](./img/ec2-for-rancher/step32.png)
 6. In **Step 3: Choose an Instance Type**, Leave everything to default and choose **Next: Add Storage**.
  ![step331](./img/ec2-for-rancher/step331.png)
@@ -221,10 +232,20 @@ This setup assumes that the nginx, squid and icap applications are in the same r
    ```
    ![step5](./img/ecr/step5.png)
   
-6. Login to the ECR docker. Replace with URI with the docker-registry-url
+6. Install docker if you already have not.
    ```
-   aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin <docker-registry-url>
+    sudo apt-get update
+    sudo apt-get install apt-transport-https  ca-certificates  curl  gnupg-agent software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo apt-key fingerprint 0EBFCD88
+    sudo apt-get update
+    sudo apt-get install docker-ce docker-ce-cli containerd.io
    ```
+
+   Login to the ECR docker. Replace with URI with the docker-registry-url
+    ```
+     aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin <docker-registry-url>
+    ```
 7. Install kubectl if you haven't https://kubernetes.io/docs/tasks/tools/install-kubectl/. Create a registry secret to give permission to the kubectl to push in ECR. Replace the AccountID with your AWS Account ID
    ```
       #
