@@ -312,7 +312,165 @@ This setup assumes that the nginx, squid and icap applications are in the same r
     git clone https://github.com/k8-proxy/s-k8-proxy-rebuild.git
     cd stable-src
     ```
-12. Run the helm command
+12. Edit the values.yaml in chart folder and add paste the following then replace the docker-registry-url
+    ```
+         # Default values for chart.
+      # This is a YAML-formatted file.
+      # Declare variables to be passed into your templates.
+      replicaCount: 1
+      image:
+      nginx:
+         repository: <docker-registry-url>
+         tag: nginx-0.0.2
+         pullPolicy: IfNotPresent
+      squid:
+         repository: <docker-registry-url>
+         tag: squid-reverse-0.0.2
+         pullPolicy: IfNotPresent
+      icap:
+         repository: <docker-registry-url>
+         tag: gw-icap-0.0.2
+         pullPolicy: IfNotPresent
+      podAnnotations: {}
+      application:
+      nginx:
+         secretName: reverse-proxy-nginx
+         env:
+            ALLOWED_DOMAINS: gov.uk.glasswall-icap.com,www.gov.uk.glasswall-icap.com,assets.publishing.service.gov.uk.glasswall-icap.com,www.nekoffice.com.glasswall-icap.com,nekoffice.com.glasswall-icap.com,xamariners.sharepoint.com.glasswall-icap.com,glasswallk8.sharepoint.com.glasswall-icap.com,login.microsoftonline.com.glasswall-icap.com,aadcdn.msauth.net.glasswall-icap.com,login.windows.net.glasswall-icap.com,aadcdn.msftauth.net.glasswall-icap.com,mysigns.microsoft.com.glasswall-icap.com,account.activedirectory.windowsazure.com.glasswall-icap.com,shell.cdn.office.net.glasswall-icap.com,spoprod-a.akamaihd.net.glasswall-icap.com,browser.pipe.aria.microsoft.com.glasswall-icap.com,amcdn.msftauth.net.glasswall-icap.com,r4.res.office365.com.glasswall-icap.com,substrate.office.com.glasswall-icap.com,lpcres.delve.office.com.glasswall-icap.com,webshell.suite.office.com.glasswall-icap.com,loki.delve.office.com.glasswall-icap.com,mysignins.microsoft.com.glasswall-icap.com,static2.sharepointonline.com.glasswall-icap.com
+            ROOT_DOMAIN: glasswall-icap.com
+            SUBFILTER_ENV: ".gov.uk,.gov.uk.glasswall-icap.com  .amazonaws.com,.amazonaws.com.glasswall-icap.com .nekoffice.com,.nekoffice.com.glasswall-icap.com .xamariners.sharepoint.com,.xamariners.sharepoint.com.glasswall-icap.com .glasswallk8.sharepoint.com,.glasswallk8.sharepoint.com.glasswall-icap.com .login.microsoftonline.com,.login.microsoftonline.com.glasswall-icap.com .aadcdn.msauth.net,.aadcdn.msauth.net.glasswall-icap.com .login.windows.net,.login.windows.net.glasswall-icap.com .aadcdn.msftauth.net,.aadcdn.msftauth.net.glasswall-icap.com .mysigns.microsoft.com,.mysigns.microsoft.com.glasswall-icap.com .account.activedirectory.windowsazure.com,.account.activedirectory.windowsazure.com.glasswall-icap.com .shell.cdn.office.net,.shell.cdn.office.net.glasswall-icap.com .spoprod-a.akamaihd.net,.spoprod-a.akamaihd.net.glasswall-icap.com .browser.pipe.aria.microsoft.com,.browser.pipe.aria.microsoft.com.glasswall-icap.com .amcdn.msftauth.net,.amcdn.msftauth.net.glasswall-icap.com .r4.res.office365.com,.r4.res.office365.com.glasswall-icap.com .substrate.office.com,.substrate.office.com.glasswall-icap.com .lpcres.delve.office.com,.lpcres.delve.office.com.glasswall-icap.com .webshell.suite.office.com,.webshell.suite.office.com.glasswall-icap.com .loki.delve.office.com,.loki.delve.office.com.glasswall-icap.com .mysignins.microsoft.com,.mysignins.microsoft.com.glasswall-icap.com .static2.sharepointonline.com,.static2.sharepointonline.com.glasswall-icap.com"
+         secrets: {}
+      squid:
+         secretName: reverse-proxy-squid
+         env:
+            ALLOWED_DOMAINS: gov.uk.glasswall-icap.com,www.gov.uk.glasswall-icap.com,assets.publishing.service.gov.uk.glasswall-icap.com,www.nekoffice.com.glasswall-icap.com,nekoffice.com.glasswall-icap.com,xamariners.sharepoint.com.glasswall-icap.com,glasswallk8.sharepoint.com.glasswall-icap.com,login.microsoftonline.com.glasswall-icap.com,aadcdn.msauth.net.glasswall-icap.com,login.windows.net.glasswall-icap.com,aadcdn.msftauth.net.glasswall-icap.com,mysigns.microsoft.com.glasswall-icap.com,account.activedirectory.windowsazure.com.glasswall-icap.com,shell.cdn.office.net.glasswall-icap.com,spoprod-a.akamaihd.net.glasswall-icap.com,browser.pipe.aria.microsoft.com.glasswall-icap.com,amcdn.msftauth.net.glasswall-icap.com,r4.res.office365.com.glasswall-icap.com,substrate.office.com.glasswall-icap.com,lpcres.delve.office.com.glasswall-icap.com,webshell.suite.office.com.glasswall-icap.com,loki.delve.office.com.glasswall-icap.com,mysignins.microsoft.com.glasswall-icap.com,static2.sharepointonline.com.glasswall-icap.com
+            ROOT_DOMAIN: glasswall-icap.com
+         secrets: {}
+      icap:
+         secretName: reverse-proxy-icap
+         env: {}
+         secrets: {}
+
+      service:
+      nginx:
+         enabled: true
+         annotations: {}
+         name: nginx
+         type: ClusterIP
+         additionalHosts:
+         - glasswallk8.sharepoint.com.glasswall-icap.com
+         - login.microsoftonline.com.glasswall-icap.com
+         - aadcdn.msauth.net.glasswall-icap.com
+         - login.windows.net.glasswall-icap.com
+         - aadcdn.msftauth.net.glasswall-icap.com
+         - mysigns.microsoft.com.glasswall-icap.com
+         - account.activedirectory.windowsazure.com.glasswall-icap.com
+         - shell.cdn.office.net.glasswall-icap.com
+         - spoprod-a.akamaihd.net.glasswall-icap.com
+         - browser.pipe.aria.microsoft.com.glasswall-icap.com
+         - amcdn.msftauth.net.glasswall-icap.com
+         - r4.res.office365.com.glasswall-icap.com
+         - substrate.office.com.glasswall-icap.com
+         - lpcres.delve.office.com.glasswall-icap.com
+         - webshell.suite.office.com.glasswall-icap.com
+         - loki.delve.office.com.glasswall-icap.com
+         - mysignins.microsoft.com.glasswall-icap.com
+         - static2.sharepointonline.co.glasswall-icap.com
+         - xamariners.sharepoint.com.glasswall-icap.com
+         - www.nekoffice.com.glasswall-icap.com
+         - www.gov.uk.glasswall-icap.com
+         - assets.publishing.service.gov.uk.glasswall-icap.com
+         commonName:
+         externalPort: 443
+         internalPort: 443
+         url: gov.uk.glasswall-icap.com
+      squid:
+         enabled: true
+         annotations: {}
+         name: squid
+         type: ClusterIP
+         additionalHosts:
+         externalPort: 8080
+         internalPort: 8080
+      icap:
+         enabled: true
+         annotations: {}
+         name: icap
+         type: ClusterIP
+         additionalHosts:
+         externalPort: 1344
+         internalPort: 1344
+      ingress:
+      enabled: true
+      tls:
+         enabled: true
+         secretName: secret-tls-nekoffice
+      annotations:
+         nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+         nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+         kubernetes.io/ingress.class: "nginx"
+      path: /
+      livenessProbe:
+      path: "/"
+      initialDelaySeconds: 30
+      timeoutSeconds: 3
+      scheme: "HTTP"
+      readinessProbe:
+      path: "/"
+      initialDelaySeconds: 30
+      timeoutSeconds: 3
+      scheme: "HTTP"
+
+      resources:
+      nginx:
+         limits:
+            cpu: 250m
+            memory: 250Mi
+         requests:
+            cpu: 250m
+            memory: 250Mi
+      squid:
+         limits:
+            cpu: 250m
+            memory: 500Mi
+         requests:
+            cpu: 250m
+            memory: 500Mi
+      icap:
+         limits:
+            cpu: 500m
+            memory: 500Mi
+         requests:
+            cpu: 500m
+            memory: 500Mi
+
+      #
+      podDisruptionBudget:
+      enabled: false
+      # minAvailable: 1
+      maxUnavailable: 1
+      scale:
+      nginx:
+         enabled: false
+         MinReplicaCount: 1
+         MaxReplicaCount: 2
+      squid:
+         enabled: false
+         MinReplicaCount: 1
+         MaxReplicaCount: 2
+      icap:
+         enabled: false
+         MinReplicaCount: 1
+         MaxReplicaCount: 2
+    ```
+    ```
+     vi chart/values.yaml
+    ``` 
+13. Edit the /etc/hosts and replace the k8s-cluster-ip. You'll find the ip for your k8s node on the EC2 instance console.
+    ```
+     <k8s-cluster-ip> gov.uk.glasswall-icap.com www.gov.uk.glasswall-icap.com assets.publishing.service.gov.uk.glasswall-icap.com www.nekoffice.com.glasswall-icap.com  nekoffice.com.glasswall-icap.com  xamariners.sharepoint.com.glasswall-icap.com  glasswallk8.sharepoint.com.glasswall-icap.com  login.microsoftonline.com.glasswall-icap.com  aadcdn.msauth.net.glasswall-icap.com  login.windows.net.glasswall-icap.com  aadcdn.msftauth.net.glasswall-icap.com  mysigns.microsoft.com.glasswall-icap.com  account.activedirectory.windowsazure.com.glasswall-icap.com  shell.cdn.office.net.glasswall-icap.com  spoprod-a.akamaihd.net.glasswall-icap.com  browser.pipe.aria.microsoft.com.glasswall-icap.com  amcdn.msftauth.net.glasswall-icap.com  r4.res.office365.com.glasswall-icap.com  substrate.office.com.glasswall-icap.com  lpcres.delve.office.com.glasswall-icap.com  webshell.suite.office.com.glasswall-icap.com  loki.delve.office.com.glasswall-icap.com  mysignins.microsoft.com.glasswall-icap.com  static2.sharepointonline.com.glasswall-icap.com
+    ```
+14. Run the helm command
     ```
     helm upgrade --install \
       --set image.nginx.repository=<docker-registry-url> \
@@ -323,9 +481,9 @@ This setup assumes that the nginx, squid and icap applications are in the same r
       --set image.icap.tag=reverse-proxy-icap-0.0.1 \
       reverse-proxy chart/
     ```
-13. Verify that all pods(nginx, squid, icap) are running by executing below command
+15. Verify that all pods(nginx, squid, icap) are running by executing below command
     ```
      kubectl get pods
     ```
-14. Follow the doc after the **kubectl get pods** part https://github.com/k8-proxy/s-k8-proxy-rebuild/tree/master/stable-src#deploy-to-kubernetes. You'll find the ip for your k8s node on the EC2 instance console.
+16. Follow the doc after the **kubectl get pods** part https://github.com/k8-proxy/s-k8-proxy-rebuild/tree/master/stable-src#deploy-to-kubernetes. 
 
