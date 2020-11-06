@@ -18,10 +18,7 @@
 2. In **Create Resource Group**, select Tag Based.
 3. Add two tags with: 
     ![step3](./img/aws-resource-group/step3.png)
-    1. Key rg-gw-dev and name rancher
-    2. Key rg-gw-dev and name k8s-node
-    3. Key rg-gw-dev and name rancher-user
-    4. Key rg-gw-dev and name ecr-user
+    1. Key rg-gw-dev leave optional tag value blank
 4. These will be used later when creating EC2 instances for rancher and k8s
     ![step4](./img/aws-resource-group/step4.png)
 5. Add group name then choose **Create Group**
@@ -237,6 +234,33 @@ After you have everything required follow the steps below:
 14. Review then choose **Create User**
 15. Download the CSV or save the Access key ID and Secret access key which will be used later for rancher
 16. Close
+
+## Adding Tags to Security Group and k8s EC2 Instance for AWS Resource Group
+### Adding tags to Security Group
+1. Open the EC2 console https://console.aws.amazon.com/ec2/
+2. Select **Security Groups**
+3. Select a security group
+4. Click on **Tags** at the bottom right.
+   ![step4](./img/tags/step4.png)
+5. Click on **Manage tags**.
+6. Click on **Add tags** and add a tag
+   ![step4](./img/tags/step6.png)
+7. Click on **Save Changes**
+Do the above step for all security group
+### Adding tags to Security Group
+1. Open the EC2 console https://console.aws.amazon.com/ec2/
+2. Select **Instances**
+3. Select a EC2 instance
+4. Click on **Tags** at the bottom right.
+
+   ![step4](./img/tags/step4.png)
+5. Click on **Manage tags**.
+6. Click on **Add tags** and add a tag
+
+   ![step4](./img/tags/step6b.png)
+7. Click on **Save Changes**
+Do the above step for all security group
+
 
 
 ## Setting up Repository for Docker in AWS
