@@ -76,7 +76,7 @@ The public ip AWS assings isn't persistent and will change everytime you shutdow
    ![step4](./img/host/step4.png)
 5.  Then we need to create an A record for the Rancher instance. Click on **Create Record Set**
    ![step5](./img/host/step5.png)
-6.  Add a subdomain or leave it blank. Select **Type: A - IPv4 address** if not previously selected and type in the Elastic IP retrieved from https://github.com/my-stolen-username/flavour-A-aws-setup#associate-elastic-ip-to-rancher-instance  in **value**.
+6.  Add a subdomain or leave it blank. Select **Type: A - IPv4 address** if not previously selected and type in the Elastic IP retrieved from https://k8-proxy.github.io/k8-proxy-documentation/docs/flavors/flavor-a/manual-setup-aws#associate-elastic-ip-to-rancher-instance  in **value**.
    ![step6](./img/host/step6.png)
 7. Click on **Create**
 8. Select the newly created a record and Click on **Test Record Set** to check if the record is working or not.
@@ -108,9 +108,9 @@ The public ip AWS assings isn't persistent and will change everytime you shutdow
 ## Setting up Rancher
 ### Before following the Rancher Docs
 It is highly advised to have a domain for the Rancher instance or you'll be facing tons of issues.
-Use the **Access key id** and **Secret access Key** that was retrieved in https://github.com/my-stolen-username/flavour-A-aws-setup#iam-user-for-rancher when Rancher asks for it.
+Use the **Access key id** and **Secret access Key** that was retrieved in https://k8-proxy.github.io/k8-proxy-documentation/docs/flavors/flavor-a/manual-setup-aws#iam-user-for-rancher when Rancher asks for it.
 After you have everything required follow the steps below:
-1. SSH to Rancher instance using the keypair that you retrieved from https://github.com/my-stolen-username/flavour-A-aws-setup#setting-up-aws-ec2-instance-for-rancher-for-flavour-a
+1. SSH to Rancher instance using the keypair that you retrieved from https://k8-proxy.github.io/k8-proxy-documentation/docs/flavors/flavor-a/manual-setup-aws#setting-up-aws-ec2-instance-for-rancher-for-flavour-a
     
 2. Install docker
    ```
@@ -136,7 +136,7 @@ After you have everything required follow the steps below:
     sudo a2enmod rewrite 
     sudo systemctl restart apache2
    ```
-5. Edit the vhost conf file. Replace the  your-rancher-domain with domain configure in https://github.com/my-stolen-username/flavour-A-aws-setup#setting-up-route-53-for-rancher-instance 
+5. Edit the vhost conf file. Replace the  your-rancher-domain with domain configure in https://k8-proxy.github.io/k8-proxy-documentation/docs/flavors/flavor-a/manual-setup-aws#setting-up-route-53-for-rancher-instance 
    ```
    sudo vi /etc/apache2/sites-available/000-default.conf
    ```
@@ -183,8 +183,8 @@ After you have everything required follow the steps below:
    ### For instance with Elastic IP(Recommended)
       1. Follow these steps but instead of rancher, it's for Flavour A. So change the tags from **rg-gw-dev: rancher** and **Name: rancher** to
          **Name: Flavour-a** and **rg-gw-dev: Flavour-a** 
-         1. https://github.com/my-stolen-username/flavour-A-aws-setup#setting-up-aws-ec2-instance-for-rancher-for-flavour-a
-         2. https://github.com/my-stolen-username/flavour-A-aws-setup#associate-elastic-ip-to-rancher-instance
+         1. https://k8-proxy.github.io/k8-proxy-documentation/docs/flavors/flavor-a/manual-setup-aws#setting-up-aws-ec2-instance-for-rancher-for-flavour-a
+         2. https://k8-proxy.github.io/k8-proxy-documentation/docs/flavors/flavor-a/manual-setup-aws#associate-elastic-ip-to-rancher-instance
       2. Open your rancher domain.
       3. Select **Add Cluster**
       4. Select **Existing Node**
@@ -548,4 +548,5 @@ This setup assumes that the nginx, squid and icap applications are in the same r
      kubectl get pods
     ```
 16. Follow the doc after the **kubectl get pods** part https://github.com/k8-proxy/s-k8-proxy-rebuild/tree/master/stable-src#deploy-to-kubernetes. 
+
 
