@@ -183,6 +183,12 @@ After you have everything required follow the steps below:
    ### For instance with Elastic IP(Recommended)
       1. Follow these steps but instead of rancher, it's for Flavour A. So change the tags from **rg-gw-dev: rancher** and **Name: rancher** to
          **Name: Flavour-a** and **rg-gw-dev: Flavour-a** 
+         #### Important
+         When in the **Security Group** section don't forget to open up the required ports for Rancher. https://rancher.com/docs/rancher/v2.x/en/installation/requirements/ports/
+         ![port1](./img/port/port1.png)
+         ![port2](./img/port/port2.png)
+
+
          1. https://k8-proxy.github.io/k8-proxy-documentation/docs/flavors/flavor-a/manual-setup-aws#setting-up-aws-ec2-instance-for-rancher-for-flavour-a
          2. https://k8-proxy.github.io/k8-proxy-documentation/docs/flavors/flavor-a/manual-setup-aws#associate-elastic-ip-to-rancher-instance
       2. Open your rancher domain.
