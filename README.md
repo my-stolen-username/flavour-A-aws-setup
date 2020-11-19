@@ -291,7 +291,7 @@ After you have everything required follow the steps below:
    ![step4](./img/tags/step6.png)
 7. Click on **Save Changes**
 Do the above step for all security group
-### Adding tags to Security Group
+### Adding tags to EC2 instance
 1. Open the EC2 console https://console.aws.amazon.com/ec2/
 2. Select **Instances**
 3. Select a EC2 instance
